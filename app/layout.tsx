@@ -13,11 +13,11 @@ export const inter = Inter({
   variable: "--font-inter",
 });
 
-export const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--spaceGrotesk",
-});
+// export const spaceGrotesk = Space_Grotesk({
+//   subsets: ["latin"],
+//   weight: ["300", "400", "500", "600", "700"],
+//   variable: "--spaceGrotesk",
+// });
 
 export const metadata: Metadata = {
   title: "BodhiOverflow",
