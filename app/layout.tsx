@@ -7,7 +7,7 @@ import "./favicon.ico";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
 
-export const fInter = Inter({
+export const Finter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${fInter.variable} ${SpaceGrotesk.variable}`}>
+      <body className={`${Finter.variable} ${SpaceGrotesk.variable}`}>
         <ClerkProvider
           appearance={{
             elements: {
