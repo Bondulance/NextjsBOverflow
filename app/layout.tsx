@@ -13,11 +13,11 @@ export const inter = Inter({
   variable: "--font-inter",
 });
 
-// export const spaceGrotesk = Space_Grotesk({
-//   subsets: ["latin"],
-//   weight: ["300", "400", "500", "600", "700"],
-//   variable: "--spaceGrotesk",
-// });
+export const SpaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--spaceGrotesk",
+});
 
 export const metadata: Metadata = {
   title: "BodhiOverflow",
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className={`${inter.variable} ${SpaceGrotesk.variable}`}>
         <ClerkProvider
           appearance={{
             elements: {
