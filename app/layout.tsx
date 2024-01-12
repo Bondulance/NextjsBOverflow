@@ -1,4 +1,3 @@
-// layouts/RootLayout.js
 
 import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
@@ -8,17 +7,19 @@ import "./globals.css";
 import "./favicon.ico";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
+
+
 export const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
-});
+})
 
 export const SpaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--spaceGrotesk",
-});
+})
 
 export const metadata: Metadata = {
   title: "BodhiOverflow",
@@ -28,7 +29,11 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${SpaceGrotesk.variable}`}>
@@ -45,6 +50,4 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
