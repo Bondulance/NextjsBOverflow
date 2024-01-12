@@ -7,17 +7,17 @@ import "./favicon.ico";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
 
-export const Finter = Inter({
+export const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
-});
+})
 
 export const SpaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--spaceGrotesk",
-});
+})
 
 export const metadata: Metadata = {
   title: "BodhiOverflow",
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${Finter.variable} ${SpaceGrotesk.variable}`}>
+      <body className={`${inter.variable} ${SpaceGrotesk.variable}`}>
         <ClerkProvider
           appearance={{
             elements: {
