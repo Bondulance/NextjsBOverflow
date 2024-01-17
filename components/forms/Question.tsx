@@ -25,11 +25,11 @@ import { useRouter, usePathname } from "next/navigation";
 
 const type: any = "create";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+// const formSchema = z.object({
+//   username: z.string().min(2, {
+//     message: "Username must be at least 2 characters.",
+//   }),
+// });
 
 interface props {
   MongoUserId: string;

@@ -1,8 +1,8 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
- 
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const getTimeStamp = (createdAt: Date): string => {
@@ -18,40 +18,38 @@ export const getTimeStamp = (createdAt: Date): string => {
   if (weeks >= 2) {
     return `${weeks} weeks ago`;
   } else if (weeks === 1) {
-    return 'one week ago';
+    return "one week ago";
   } else if (days >= 2) {
     return `${days} days ago`;
   } else if (days === 1) {
-    return 'yesterday';
+    return "yesterday";
   } else if (hours >= 2) {
     return `${hours} hours ago`;
   } else if (hours === 1) {
-    return 'an hour ago';
+    return "an hour ago";
   } else if (minutes >= 2) {
     return `${minutes} minutes ago`;
   } else if (minutes === 1) {
-    return 'a minute ago';
+    return "a minute ago";
   } else {
-    return 'just now';
+    return "just now";
   }
 };
 
 // Example usage:
-const createdAt = new Date('2023-12-01T12:00:00.00Z');
-const formattedTimestamp = getTimeStamp(createdAt);
+// const createdAt = new Date('2023-12-01T12:00:00.00Z');
+// const formattedTimestamp = getTimeStamp(createdAt);
 
+// export const formatBigNumber = (num: number): string => {
+//   if (num >= 1e6) {
+//     return (num / 1e6).toFixed(1) + 'M';
+//   } else if (num >= 1e3) {
+//     return (num / 1e3).toFixed(1) + 'K';
+//   } else {
+//     return num.toString();
+//   }
+// };
 
-export const formatBigNumber = (num: number): string => {
-  if (num >= 1e6) {
-    return (num / 1e6).toFixed(1) + 'M';
-  } else if (num >= 1e3) {
-    return (num / 1e3).toFixed(1) + 'K';
-  } else {
-    return num.toString();
-  }
-};
-
-// Example usage:
-const bigNumber = 1500000; // 1.5 million
-const formattedNumber = formatBigNumber(bigNumber);
-
+// // Example usage:
+// const bigNumber = 1500000; // 1.5 million
+// const formattedNumber = formatBigNumber(bigNumber);
