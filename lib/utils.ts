@@ -36,20 +36,14 @@ export const getTimeStamp = (createdAt: Date): string => {
   }
 };
 
-// Example usage:
-// const createdAt = new Date('2023-12-01T12:00:00.00Z');
-// const formattedTimestamp = getTimeStamp(createdAt);
+export const formatBigNumber = (num: number): string => {
+  if (num >= 1e6) {
+    return (num / 1e6).toFixed(1) + "M";
+  } else if (num >= 1e3) {
+    return (num / 1e3).toFixed(1) + "K";
+  } else {
+    return num.toString();
+  }
+};
 
-// export const formatBigNumber = (num: number): string => {
-//   if (num >= 1e6) {
-//     return (num / 1e6).toFixed(1) + 'M';
-//   } else if (num >= 1e3) {
-//     return (num / 1e3).toFixed(1) + 'K';
-//   } else {
-//     return num.toString();
-//   }
-// };
-
-// // Example usage:
-// const bigNumber = 1500000; // 1.5 million
-// const formattedNumber = formatBigNumber(bigNumber);
+// 1.5 million
