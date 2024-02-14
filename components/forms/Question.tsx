@@ -1,9 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
+
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
 import {
   Form,
   FormControl,
@@ -13,25 +14,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { createQuestion, editQuestion } from "@/lib/actions/question.action";
+import { createQuestion } from "@/lib/actions/question.action";
+
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
 
-interface Props {
+interface props {
+  MongoUserId: string;
   type?: string;
-  mongoUserId: string;
   questionDetails?: string;
 }
 
-const Question = ({ type, mongoUserId, questionDetails }: Props) => {
+const Question = ({ MongoUserId, questionDetails, type }: props) => {
   const { mode } = useTheme();
-  const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const editorRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -50,37 +52,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
     },
   });
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
-    setIsSubmitting(true);
-
-    try {
-      if (type === "Edit") {
-        await editQuestion({
-          questionId: parsedQuestionDetails._id,
-          title: values.title,
-          content: values.explanation,
-          path: pathname,
-        });
-
-        router.push(`/question/${parsedQuestionDetails._id}`);
-      } else {
-        await createQuestion({
-          title: values.title,
-          content: values.explanation,
-          tags: values.tags,
-          author: JSON.parse(mongoUserId),
-          path: pathname,
-        });
-
-        router.push("/");
-      }
-    } catch (error) {
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     field: any
@@ -98,7 +69,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
             message: "Tag must be less than 15 characters.",
           });
         }
-
         if (!field.value.includes(tagValue as never)) {
           form.setValue("tags", [...field.value, tagValue]);
           tagInput.value = "";
@@ -116,6 +86,28 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
     form.setValue("tags", newTags);
   };
 
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+    setIsSubmitting(true);
+
+    try {
+      // make an async call to API create a question
+      // contain all form data
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(MongoUserId),
+        path: pathname,
+      });
+      // navigate to home page
+      router.push("/");
+    } catch (error) {
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <Form {...form}>
       <form
@@ -127,12 +119,16 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="title"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel
+                className="paragraph-semibold text-dark400_light800
+              "
+              >
                 Question Title <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2
+                text-dark300_light700 min-h-[56px] border"
                   {...field}
                 />
               </FormControl>
@@ -206,15 +202,18 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="tags"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel
+                className="paragraph-semibold text-dark400_light800
+              "
+              >
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <>
                   <Input
-                    disabled={type === "Edit"}
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                     placeholder="Add tags..."
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2
+                text-dark300_light700 min-h-[56px] border"
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
 
@@ -223,23 +222,20 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                       {field.value.map((tag: any) => (
                         <Badge
                           key={tag}
-                          className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
-                          onClick={() =>
-                            type !== "Edit"
-                              ? handleTagRemove(tag, field)
-                              : () => {}
-                          }
+                          className="subtle-medium background-light800_dark300
+                      text-light400_light500 items_center flex justify-center
+                      gap-2 rounded-md border-none px-4 py-2 uppercase"
+                          onClick={() => handleTagRemove(tag, field)}
                         >
                           {tag}
-                          {type !== "Edit" && (
-                            <Image
-                              src="/assets/icons/close.svg"
-                              alt="Close icon"
-                              width={12}
-                              height={12}
-                              className="cursor-pointer object-contain invert-0 dark:invert"
-                            />
-                          )}
+                          <Image
+                            src="/assets/icons/close.svg"
+                            alt="close icon"
+                            width={12}
+                            height={12}
+                            className="cursor-pointer
+                          object-contain invert-0 dark:invert"
+                          />
                         </Badge>
                       ))}
                     </div>
@@ -247,8 +243,8 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                 </>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
-                Add up to 3 tags to describe what your question is about. You
-                need to press enter to add a tag.
+                Add up to 3 tags to describe what your question is about. Start
+                typing to see suggestions. Press Enter to confirm tag.
               </FormDescription>
               <FormMessage className="text-red-500" />
             </FormItem>
@@ -256,13 +252,14 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         />
         <Button
           type="submit"
-          className="primary-gradient w-fit !text-light-900"
+          className="primary-gradient w-fit
+        !text-light-900"
           disabled={isSubmitting}
         >
           {isSubmitting ? (
-            <>{type === "Edit" ? "Editing..." : "Posting..."}</>
+            <>{type === "edit" ? "Editing..." : "Posting"}</>
           ) : (
-            <>{type === "Edit" ? "Edit Question" : "Ask a Question"}</>
+            <>{type === "edit" ? "Edit Question" : "Ask a Question"}</>
           )}
         </Button>
       </form>
