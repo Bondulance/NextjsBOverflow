@@ -1,4 +1,4 @@
-//.d.ts means it will define what the variables should be
+// .d.ts means it will define what the variables should be
 
 import { BADGE_CRITERIA } from "@/constants";
 
@@ -48,4 +48,3 @@ export interface BadgeCounts {
 }
 
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;
-

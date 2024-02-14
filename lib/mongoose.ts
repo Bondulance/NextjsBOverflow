@@ -9,7 +9,7 @@ export const connectToDatabase = async () => {
     return console.log("MISSING MONGODB_URL");
   }
   if (isConnected) {
-    return console.log("MONGO DB is connected");
+    return;
   }
 
   try {

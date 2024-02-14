@@ -19,8 +19,8 @@ export interface GetAnswersParams {
 export interface AnswerVoteParams {
   answerId: string;
   userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
+  hasupvoted: boolean;
+  hasdownvoted: boolean;
   path: string;
 }
 
@@ -73,8 +73,8 @@ export interface GetQuestionByIdParams {
 export interface QuestionVoteParams {
   questionId: string;
   userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
+  hasupvoted: boolean;
+  hasdownvoted: boolean;
   path: string;
 }
 
@@ -157,4 +157,3 @@ export interface GetUserStatsParams {
 export interface DeleteUserParams {
   clerkId: string;
 }
-

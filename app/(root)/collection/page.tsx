@@ -1,42 +1,25 @@
-import Filters from "@/components/shared/filters/Filters";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React from "react";
-import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { HomePageFilters } from "@/constants/filters";
-import Homefilters from "@/components/home/homefilters";
 import NoResult from "@/components/shared/NoResult/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
-import { getQuestions } from "@/lib/actions/question.action";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
+import Filters from "@/components/shared/filters/Filters";
+import { QuestionFilters } from "@/constants/filters";
+import { getSavedQuestions } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs";
 import { SearchParamsProps } from "@/types";
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const result = await getQuestions({
+  const { userId } = auth();
+
+  if (!userId) return null;
+  const result = await getSavedQuestions({
+    clerkId: userId,
     searchQuery: searchParams.q,
     filter: searchParams.filter,
   });
 
   return (
     <>
-      <div
-        className="flex w-full flex-col-reverse
-      justify-between gap-4 sm:flex-row sm:items-center"
-      >
-        <h1 className="h1-bold text-dark100_light900">All Questions</h1>
-
-        <Link
-          href="/ask-question"
-          className="flex
-          justify-end max-sm:w-full"
-        >
-          <Button
-            className="primary-gradient min-h-[46px]
-            px-4 py-3 !text-light-900"
-          >
-            Ask a Question
-          </Button>
-        </Link>
-      </div>
+      <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
 
       <div
         className="mt-11 flex justify-between gap-5
@@ -51,13 +34,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         />
 
         <Filters
-          filters={HomePageFilters}
+          filters={QuestionFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
-          containerClasses="hidden max-md:flex"
         />
       </div>
-
-      <Homefilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
@@ -76,9 +56,9 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           ))
         ) : (
           <NoResult
-            title="Theres no questions to show"
-            description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
-            link="/ask-question"
+            title="Theres no saved questions to show"
+            description="There are no saved questions yet! Go interact with peoples post and hit the star in the top right to save one! 🌟"
+            link="ask-question"
             linkTitle="Ask a Question"
           />
         )}
