@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 import NoResult from "@/components/shared/NoResult/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import Filters from "@/components/shared/filters/Filters";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { TagFilters } from "@/constants/filters";
@@ -13,6 +14,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await GetAllTags({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   console.log(result.tags);
@@ -85,6 +87,13 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
           />
         )}
       </section>
+
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
+      </div>
     </>
   );
 };

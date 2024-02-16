@@ -37,7 +37,10 @@ export const getTimeStamp = (createdAt: Date): string => {
   }
 };
 
-export const formatBigNumber = (num: number): string => {
+export const formatBigNumber = (num: number | undefined): string => {
+  if (typeof num !== "number" || isNaN(num)) {
+    return "0"; // or any default value or error handling strategy
+  }
   if (num >= 1e6) {
     return (num / 1e6).toFixed(1) + "M";
   } else if (num >= 1e3) {
