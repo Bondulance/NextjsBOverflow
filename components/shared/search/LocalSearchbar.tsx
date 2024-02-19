@@ -52,8 +52,6 @@ const LocalSearchbar = ({
     return () => clearTimeout(delayDebounceFn);
   }, [search, route, router, pathname, searchParams, query]);
 
-  // console.log(query);
-
   return (
     <div
       className={`background-light800_darkgradient relative flex 
