@@ -9,7 +9,7 @@ import {
   GetSavedQuestionsParams,
   GetUserByIdParams,
   GetUserStatsParams,
-  RecommendedParams,
+  // RecommendedParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
@@ -319,21 +319,21 @@ export async function getUserAnswers(params: GetUserStatsParams) {
   }
 }
 
-export async function recommendedQuestions(params: RecommendedParams) {
-  try {
-    connectToDatabase();
+// export async function recommendedQuestions(params: RecommendedParams) {
+//   try {
+//     connectToDatabase();
 
-    const { userId, page = 1, pageSize = 20, searchQuery } = params;
+//     const { userId, page = 1, pageSize = 20, searchQuery } = params;
 
-    const query: FilterQuery<typeof Question> = searchQuery
-      ? { title: { $regex: new RegExp(searchQuery, "i") } }
-      : {};
+//     const query: FilterQuery<typeof Question> = searchQuery
+//       ? { title: { $regex: new RegExp(searchQuery, "i") } }
+//       : {};
 
-    const recQuestions = await User.findById(userId);
+//     const recQuestions = await User.findById(userId);
 
-    return { recQuestions };
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
+//     return { recQuestions };
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// }

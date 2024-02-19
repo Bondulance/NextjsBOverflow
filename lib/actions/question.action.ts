@@ -10,7 +10,7 @@ import {
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
-  RecommendedParams,
+  // RecommendedParams,
 } from "./shared.types";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
@@ -293,15 +293,15 @@ export async function getHotQuestions() {
   }
 }
 
-export async function recommendedQuestions(params: RecommendedParams) {
-  try {
-    connectToDatabase();
+// export async function recommendedQuestions(params: RecommendedParams) {
+//   try {
+//     connectToDatabase();
 
-    const { userId, page = 1, pageSize = 20, searchQuery } = params;
+//     const { userId, page = 1, pageSize = 20, searchQuery } = params;
 
-    const recQuestions = await User.findById(userId);
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
+//     const recQuestions = await User.findById(userId);
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// }
