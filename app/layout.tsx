@@ -1,27 +1,29 @@
-import { ClerkProvider } from "@clerk/nextjs";
+/* eslint-disable camelcase */
 import React from "react";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
+
 import "./globals.css";
-import "./favicon.ico";
+// import "../styles/prism.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
-
-export const inter = Inter({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
 });
 
-export const spaceGrotesk = Space_Grotesk({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--spaceGrotesk",
+  variable: "--font-spaceGrotesk",
 });
 
 export const metadata: Metadata = {
-  title: "BodhiOverflow",
-  description: "Yes yes",
+  title: "DevFlow",
+  description:
+    "A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
   icons: {
     icon: "/assets/images/site-logo.svg",
   },
