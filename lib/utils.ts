@@ -51,6 +51,7 @@ export const formatBigNumber = (num: number | undefined): string => {
 };
 
 // 1.5 million
+
 export const getJoinedDate = (date: Date): string => {
   // Extract the month and year from the Date object
   const month = date.toLocaleString("default", { month: "long" });

@@ -330,6 +330,8 @@ export async function recommendedQuestions(params: RecommendedParams) {
       : {};
 
     const recQuestions = await User.findById(userId);
+
+    return { recQuestions };
   } catch (error) {
     console.log(error);
     throw error;

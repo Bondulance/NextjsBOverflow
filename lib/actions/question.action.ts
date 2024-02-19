@@ -90,7 +90,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     // Create the tags or get them if they already exist
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(
-        { name: { $regex: new RegExp(`^${tag}`, "i") } }, // i is case insensitive
+        { name: { $regex: new RegExp(`^${tag}$`, "i") } },
         { $setOnInsert: { name: tag }, $push: { questions: question._id } },
         { upsert: true, new: true }
       );
@@ -102,14 +102,20 @@ export async function createQuestion(params: CreateQuestionParams) {
       $push: { tags: { $each: tagDocuments } },
     });
 
-    // Create interaction record for the users ask_question action
+    // Create an interaction record for the user's ask_question action
+    await Interaction.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    });
 
-    // increment authors rep by 5 for creating question
+    // Increment author's reputation by +5 for creating a question
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
     revalidatePath(path);
   } catch (error) {
     console.log(error);
-    throw error;
   }
 }
 
@@ -161,6 +167,15 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found");
     }
 
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasupvoted ? -1 : 1 },
+    });
+
+    // increment author rep +10 / -10 for recieving an upvote or downvote
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasupvoted ? -10 : 10 },
+    });
+
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -194,6 +209,15 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     if (!question) {
       throw new Error("Question not found");
     }
+
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasdownvoted ? -2 : 2 },
+    });
+
+    // increment author rep +10 / -10 for recieving an upvote or downvote
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasdownvoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
