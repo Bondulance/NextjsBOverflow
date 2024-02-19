@@ -1,26 +1,25 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from "mongoose";
 
 let isConnected: boolean = false;
 
 export const connectToDatabase = async () => {
-    mongoose.set('strictQuery', true);
-    
-    if(!process.env.MONGODB_URL) {
-        return console.log("MISSING MONGODB_URL");
-    }
-    if (isConnected) {
-        return console.log('MONGO DB is connected');
-    }
+  mongoose.set("strictQuery", true);
 
- try {
-    await mongoose.connect(process.env.MONGODB_URL,{
-        dbName: 'bodhioverflow'
-    })
+  if (!process.env.MONGODB_URL) {
+    return console.log("MISSING MONGODB_URL");
+  }
+  if (isConnected) {
+    return console.log("MONGO DB is connected");
+  }
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URL, {
+      dbName: "bodhioverflow",
+    });
 
     isConnected = true;
-    console.log('MongoDB is connected');
- } catch (error) {
-    console.log('MOngoDB DID NOT CONNECT', error)
- }
-
-}
+    console.log("MongoDB is connected");
+  } catch (error) {
+    console.log("MOngoDB DID NOT CONNECT", error);
+  }
+};
