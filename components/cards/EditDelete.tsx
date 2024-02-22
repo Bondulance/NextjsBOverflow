@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   type: string;
@@ -29,6 +30,10 @@ const EditDelete = ({ type, itemId }: Props) => {
       // Answer
       await deleteAnswer({ answerId: JSON.parse(itemId), path: pathname });
     }
+    return toast({
+      title: "Deleted Successfully",
+      description: "The item was deleted successfully",
+    });
   };
 
   return (

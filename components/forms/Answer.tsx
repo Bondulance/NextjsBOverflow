@@ -1,9 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -13,11 +12,13 @@ import { AnswerSchema } from "@/lib/validations";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
+import { useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   question: string;
@@ -27,7 +28,8 @@ interface Props {
 
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
-  const [isSubmmitting, setIsSubmmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAI, setSetIsSubmittingAI] = useState(false);
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -38,7 +40,8 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   });
 
   const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
-    setIsSubmmitting(true);
+    setIsSubmitting(true);
+
     try {
       await createAnswer({
         content: values.answer,
@@ -54,39 +57,84 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
         editor.setContent("");
       }
+
+      return toast({
+        title: "Answer made successfully!",
+        description: "Thank you for helping the community",
+      });
     } catch (error) {
       console.log(error);
     } finally {
-      setIsSubmmitting(false);
+      setIsSubmitting(false);
+    }
+  };
+
+  const generateAIAnswer = async () => {
+    if (!authorId) return;
+
+    setSetIsSubmittingAI(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: "POST",
+          body: JSON.stringify({ question }),
+        }
+      );
+
+      const aiAnswer = await response.json();
+
+      // Convert plain text to HTML format
+
+      const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br />");
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
+      }
+
+      return toast({
+        title: "AI Answer generated successfully!",
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSetIsSubmittingAI(false);
     }
   };
 
   return (
-    <div className="mt-8">
+    <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
         <h4 className="paragraph-semibold text-dark400_light800">
-          Write your answer here.
+          Write your answer here
         </h4>
 
         <Button
-          className="btn light-border-2 gap-1.5 rounded-md px-4
-        py-2.5 text-primary-500 shadow-none dark:text-primary-500"
-          onClick={() => {}}
+          className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
+          onClick={generateAIAnswer}
         >
-          <Image
-            src="/assets/icons/stars.svg"
-            alt="star"
-            width={12}
-            height={12}
-            className="object-contain"
-          />
-          Generate an AI Answer
+          {isSubmittingAI ? (
+            <>Generating...</>
+          ) : (
+            <>
+              <Image
+                src="/assets/icons/stars.svg"
+                alt="star"
+                width={12}
+                height={12}
+                className="object-contain"
+              />
+              Generate AI Answer
+            </>
+          )}
         </Button>
       </div>
+
       <Form {...form}>
         <form
-          className="mt-6 flex w-full flex-col gap-10
-      "
+          className="mt-6 flex w-full flex-col gap-10"
           onSubmit={form.handleSubmit(handleCreateAnswer)}
         >
           <FormField
@@ -103,7 +151,6 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                     }}
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
-                    initialValue=""
                     init={{
                       height: 350,
                       menubar: false,
@@ -125,7 +172,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                         "table",
                       ],
                       toolbar:
-                        "undo redo | blocks | " +
+                        "undo redo | " +
                         "codesample | bold italic forecolor | alignleft aligncenter |" +
                         "alignright alignjustify | bullist numlist",
                       content_style:
@@ -135,10 +182,6 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                     }}
                   />
                 </FormControl>
-                <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Write your answer to the question above. Responses must be at
-                  least 50 characters long.
-                </FormDescription>
                 <FormMessage className="text-red-500" />
               </FormItem>
             )}
@@ -146,11 +189,11 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
           <div className="flex justify-end">
             <Button
-              className="primary-gradient w-fit text-white"
               type="submit"
-              disabled={isSubmmitting}
+              className="primary-gradient w-fit text-white"
+              disabled={isSubmitting}
             >
-              {isSubmmitting ? "Submitting..." : "Submit"}
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </form>

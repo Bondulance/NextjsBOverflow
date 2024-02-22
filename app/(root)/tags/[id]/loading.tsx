@@ -1,0 +1,31 @@
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
+import { Skeleton } from "@/components/ui/skeleton";
+
+import React from "react";
+
+const Loading = () => {
+  return (
+    <section>
+      <div
+        className="mt-11 flex justify-between gap-5
+    max-sm:flex-col sm:items-center"
+      >
+        <LocalSearchbar
+          route="/"
+          iconPosition="left"
+          imgSrc="/assets/icons/search.svg"
+          otherClasses="flex-1"
+          placeholder="Search Questions..."
+        />
+      </div>
+
+      <div className="mt-10 flex w-full flex-col gap-6">
+        {[1, 2, 3, 4, 5, 6].map((item) => (
+          <Skeleton key={item} className="h-48 w-full rounded-xl" />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default Loading;

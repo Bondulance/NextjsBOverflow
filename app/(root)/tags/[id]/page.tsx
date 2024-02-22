@@ -12,6 +12,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
     searchQuery: searchParams.q,
     page: searchParams.page ? +searchParams.page : 1,
   });
+
   return (
     <>
       <h1 className="h1-bold text-dark100_light900 capitalize">

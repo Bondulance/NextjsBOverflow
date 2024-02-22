@@ -15,20 +15,18 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
     connectToDatabase();
 
-    // eslint-disable-next-line no-unused-vars
-    const { userId, limit = 3 } = params;
+    const { userId } = params;
 
     const user = await User.findById(userId);
 
     if (!user) throw new Error("User not found");
 
-    // find interaction for the user and group by tags..
-
-    // interaction...
+    // Find interactions for the user and group by tags...
+    // Interaction...
 
     return [
-      { _id: "1", name: "html" },
-      { _id: "2", name: "javascript" },
+      { _id: "1", name: "tag" },
+      { _id: "2", name: "tag2" },
     ];
   } catch (error) {
     console.log(error);

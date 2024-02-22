@@ -9,6 +9,17 @@ import Link from "next/link";
 import React from "react";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "BodhiOverflow | Community",
+  description:
+    "The Community Page of BodhiOverflow, come ask Questions and get involved in our Programming Community!",
+  keywords: ["bodhiOverflow", "coding", "programming", "help", "homepage"],
+  openGraph: {
+    images: "/assets/images/meta.png",
+  },
+};
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({

@@ -6,9 +6,20 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { TagFilters } from "@/constants/filters";
 import { GetAllTags } from "@/lib/actions/tags.action";
 import { SearchParamsProps } from "@/types";
+import { Metadata } from "next";
 import Link from "next/link";
 
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "BodhiOverflow | Tags",
+  description:
+    "The Tags of BodhiOverflow, come ask Questions and get involved in our Programming Community!",
+  keywords: ["bodhiOverflow", "coding", "programming", "help", "homepage"],
+  openGraph: {
+    images: "/assets/images/meta.png",
+  },
+};
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await GetAllTags({
@@ -58,7 +69,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
                 >
                   <p
                     className="paragraph-semibold
-                  text-dark300_light900 lowercase"
+                  text-dark300_light900  capitalize"
                   >
                     {tag.name}
                   </p>

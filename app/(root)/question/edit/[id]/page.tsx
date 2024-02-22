@@ -4,8 +4,6 @@ import { getUserById } from "@/lib/actions/user.action";
 import { ParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 
-import React from "react";
-
 const Page = async ({ params }: ParamsProps) => {
   const { userId } = auth();
 
@@ -20,12 +18,13 @@ const Page = async ({ params }: ParamsProps) => {
 
       <div className="mt-9">
         <Question
-          type="edit"
-          MongoUserId={mongoUser._id}
+          type="Edit"
+          mongoUserId={mongoUser._id}
           questionDetails={JSON.stringify(result)}
         />
       </div>
     </>
   );
 };
+
 export default Page;

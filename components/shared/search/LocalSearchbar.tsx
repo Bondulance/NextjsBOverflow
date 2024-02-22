@@ -54,7 +54,7 @@ const LocalSearchbar = ({
 
   return (
     <div
-      className={`background-light800_darkgradient relative flex 
+      className={`background-light800_darkgradient text-dark400_light relative flex 
         min-h-[56px] grow items-center gap-4 rounded-[10px] px-4
         ${otherClasses}`}
     >
