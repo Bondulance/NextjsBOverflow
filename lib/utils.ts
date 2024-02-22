@@ -122,13 +122,14 @@ export const assignBadges = (params: BadgeParam) => {
     SILVER: 0,
     BRONZE: 0,
   };
+
   const { criteria } = params;
 
   criteria.forEach((item) => {
     const { type, count } = item;
-    const badgeLevels = BADGE_CRITERIA[type];
+    const badgeLevels: any = BADGE_CRITERIA[type];
 
-    Object.keys(badgeLevels).forEach((level) => {
+    Object.keys(badgeLevels).forEach((level: any) => {
       if (count >= badgeLevels[level]) {
         badgeCounts[level as keyof BadgeCounts] += 1;
       }
