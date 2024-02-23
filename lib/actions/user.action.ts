@@ -290,9 +290,8 @@ export async function getUserInfo(params: GetUserByIdParams) {
       },
     ]);
 
-    const [questionViews] = await Question.aggregate([
+    const [questionViews] = await Answer.aggregate([
       { $match: { author: user._id } },
-
       {
         $group: {
           _id: null,
@@ -314,7 +313,7 @@ export async function getUserInfo(params: GetUserByIdParams) {
       },
       {
         type: "TOTAL_VIEWS" as BadgeCriteriaType,
-        count: questionViews.totalViews || 0,
+        count: questionViews?.totalViews || 0,
       },
     ];
 
@@ -322,8 +321,8 @@ export async function getUserInfo(params: GetUserByIdParams) {
 
     return {
       user,
-      totalAnswers,
       totalQuestions,
+      totalAnswers,
       badgeCounts,
       reputation: user.reputation,
     };
