@@ -1,28 +1,19 @@
-import NoResult from "@/components/shared/NoResult/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
-import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
+import NoResult from "@/components/shared/NoResult/NoResult";
+
+import Pagination from "@/components/shared/Pagination";
 import Filters from "@/components/shared/filters/Filters";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
-import { auth } from "@clerk/nextjs";
 import { SearchParamsProps } from "@/types";
-import Pagination from "@/components/shared/Pagination";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "BodhiOverflow | Collection",
-  description:
-    "The Collection Page of BodhiOverflow, come see your saved Questions from BodhiOverflow!",
-  keywords: ["bodhiOverflow", "coding", "programming", "help", "homepage"],
-  openGraph: {
-    images: "/assets/images/meta.png",
-  },
-};
+import { auth } from "@clerk/nextjs";
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
 
   if (!userId) return null;
+
   const result = await getSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
@@ -34,16 +25,13 @@ export default async function Home({ searchParams }: SearchParamsProps) {
     <>
       <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
 
-      <div
-        className="mt-11 flex justify-between gap-5
-      max-sm:flex-col sm:items-center"
-      >
+      <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
           route="/"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
+          placeholder="Search for questions"
           otherClasses="flex-1"
-          placeholder="Search Questions..."
         />
 
         <Filters
@@ -69,9 +57,9 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           ))
         ) : (
           <NoResult
-            title="Theres no saved questions to show"
-            description="There are no saved questions yet! Go interact with peoples post and hit the star in the top right to save one! 🌟"
-            link="ask-question"
+            title="There’s no question saved to show"
+            description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
+            link="/ask-question"
             linkTitle="Ask a Question"
           />
         )}

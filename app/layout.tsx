@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/images/site-logo.svg",
   },
+  openGraph: {
+    images: "https://photos.sphereshowcase.com/tBJczsgyzUAP3woETDr31.jpg",
+  },
 };
 
 export default function RootLayout({

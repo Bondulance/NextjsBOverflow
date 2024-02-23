@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "The Home Page of BodhiOverflow, come ask Questions and get involved in our Programming Community!",
   keywords: ["bodhiOverflow", "coding", "programming", "help", "homepage"],
   openGraph: {
-    images: "/assets/images/meta.png",
+    images: "https://photos.sphereshowcase.com/tBJczsgyzUAP3woETDr31.jpg",
   },
 };
 
