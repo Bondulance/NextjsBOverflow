@@ -20,6 +20,9 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
+      <head>
+        <meta property="og:image" content="/assets/images/meta.png" />
+      </head>
       <h1 className="h1-bold text-dark100_light900">Tags</h1>
 
       <div
