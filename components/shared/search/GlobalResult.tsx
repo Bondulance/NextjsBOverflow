@@ -5,14 +5,19 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import GlobalFilters from "@/components/shared/filters/GlobalFilters";
+
 import { globalSearch } from "@/lib/actions/general.action";
+import GlobalFilters from "../filters/GlobalFilters";
 
 const GlobalResult = () => {
   const searchParams = useSearchParams();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState([
+    { type: "question", id: 1, title: "Next.js question" },
+    { type: "tag", id: 1, title: "Nextjs" },
+    { type: "user", id: 1, title: "jsm" },
+  ]);
 
   const global = searchParams.get("global");
   const type = searchParams.get("type");
@@ -78,7 +83,7 @@ const GlobalResult = () => {
                 <Link
                   href={renderLink(item.type, item.id)}
                   key={item.type + item.id + index}
-                  className="flex w-full cursor-pointer items-start gap-3 px-5 py-2.5 hover:bg-light-700/50 hover:dark:bg-dark-500/50"
+                  className="flex w-full cursor-pointer items-start gap-3 px-5 py-2.5 hover:bg-light-700/50 dark:bg-dark-500/50"
                 >
                   <Image
                     src="/assets/icons/tag.svg"
