@@ -1,17 +1,22 @@
-import NoResult from "@/components/shared/NoResult/NoResult";
+import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
-    <div>
-      <NoResult
-        title="Feature coming soon!"
-        description="Thank you for you patience, for now go explore something else within BodhiOverflow!"
-        link="/"
-        linkTitle="Home"
-      ></NoResult>
-    </div>
+    <>
+      <h1 className="h1-bold text-dark100_light900">Find Jobs</h1>
+
+      <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
+        <LocalSearchbar
+          route="/"
+          iconPosition="left"
+          imgSrc="/assets/icons/search.svg"
+          placeholder="Search for jobs"
+          otherClasses="flex-1"
+        />
+      </div>
+    </>
   );
 };
 
-export default page;
+export default Page;
